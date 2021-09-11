@@ -19,20 +19,26 @@ export default function FeedbackCounter() {
         setBad(prevState => prevState + 1);
     }
 
+    const countTotalFeedback = () => {
+        return good + neutral + bad;
+    }
+
 
     return (
         <>
             <h1>Please leave feedback</h1>
             <div>
-                <button type="button" onClick={handleGoodIncrement} name="good">good</button>
-                <button type="button" onClick={handleNeutralIncrement} name="neutral">neutral</button>
-                <button type="button" onClick={handleBadIncrement} name="bad">bad</button>
+                <button type="button" onClick={handleGoodIncrement}></button>
+                <button type="button" onClick={handleNeutralIncrement}>neutral</button>
+                <button type="button" onClick={handleBadIncrement}>bad</button>
             </div>
             <h2>Statistics</h2>
             <ul>
                 <li>Good: {good}</li>
                 <li>Neutral: {neutral}</li>
                 <li>Bad: {bad}</li>
+                <li>Total : {countTotalFeedback()}</li>
+                <li>Positive feedback: </li>
             </ul>
         </>
     )
