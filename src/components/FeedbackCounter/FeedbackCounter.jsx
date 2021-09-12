@@ -1,5 +1,5 @@
-import s from './FeedbackCounter.module.css';
 import { useState } from 'react';
+import Statistics from '../Statistics/Statistics';
 
 export default function FeedbackCounter() {
 
@@ -23,23 +23,30 @@ export default function FeedbackCounter() {
         return good + neutral + bad;
     }
 
+    const countPositiveFeedbackPercentage = () => {
+        return Math.round(good * 100 / countTotalFeedback());
+    }
+
+    
+
 
     return (
         <>
             <h1>Please leave feedback</h1>
             <div>
-                <button type="button" onClick={handleGoodIncrement}></button>
+                <button type="button" onClick={handleGoodIncrement}>good</button>
                 <button type="button" onClick={handleNeutralIncrement}>neutral</button>
                 <button type="button" onClick={handleBadIncrement}>bad</button>
             </div>
             <h2>Statistics</h2>
-            <ul>
-                <li>Good: {good}</li>
-                <li>Neutral: {neutral}</li>
-                <li>Bad: {bad}</li>
-                <li>Total : {countTotalFeedback()}</li>
-                <li>Positive feedback: </li>
-            </ul>
+
+            {countTotalFeedback() === 0
+                ? <h2>No feedback given</h2>
+                : <Statistics
+                good={good}
+                neutral={neutral}
+                bad={bad} total={countTotalFeedback()}
+                positivePercentage={countPositiveFeedbackPercentage()} />}  
         </>
     )
 }
