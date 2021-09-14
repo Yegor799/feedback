@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Statistics from '../Statistics/Statistics';
+import FeedbackOptions from '../FeedbackOptions/FeedbackOptions';
 
 export default function FeedbackCounter() {
 
@@ -7,16 +8,26 @@ export default function FeedbackCounter() {
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
 
-    const handleGoodIncrement = () => {
-        setGood(prevState => prevState + 1);
-    }
+    const feedbacks = { good, neutral, bad };  
 
-    const handleNeutralIncrement = () => {
-        setNeutral(prevState => prevState + 1);
-    }
-
-    const handleBadIncrement = () => {
-        setBad(prevState => prevState + 1);
+   
+    const handleFeedbackIncrement = type => {
+        switch (type) {
+            case 'good':
+               setGood(prevState => prevState + 1); 
+                break;
+            
+            case 'neutral':
+               setNeutral(prevState => prevState + 1); 
+                break;
+            
+            case 'bad':
+               setBad(prevState => prevState + 1); 
+                break;
+        
+            default:
+                break;
+        }
     }
 
     const countTotalFeedback = () => {
@@ -25,19 +36,15 @@ export default function FeedbackCounter() {
 
     const countPositiveFeedbackPercentage = () => {
         return Math.round(good * 100 / countTotalFeedback());
-    }
-
-    
+    }   
 
 
     return (
         <>
             <h1>Please leave feedback</h1>
-            <div>
-                <button type="button" onClick={handleGoodIncrement}>good</button>
-                <button type="button" onClick={handleNeutralIncrement}>neutral</button>
-                <button type="button" onClick={handleBadIncrement}>bad</button>
-            </div>
+
+            <FeedbackOptions options={Object.keys(feedbacks)} onLeaveFeedback={handleFeedbackIncrement}/>
+            
             <h2>Statistics</h2>
 
             {countTotalFeedback() === 0
